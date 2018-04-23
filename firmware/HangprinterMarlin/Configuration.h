@@ -65,16 +65,17 @@
 // Measure from pivot point to pivot point of line
 // See Hangprinter calibration manual for help:
 // http://reprap.org/wiki/Links_Into_Hangprinter_v3_Build_Video#Now_going_into_an_hour_of_measuring_this
+
 #define ANCHOR_A_X     0 // mm
-#define ANCHOR_A_Y -752
+#define ANCHOR_A_Y -762//-752
 #define ANCHOR_A_Z   -1
-#define ANCHOR_B_X  646
-#define ANCHOR_B_Y   392
+#define ANCHOR_B_X  650//646
+#define ANCHOR_B_Y   373//392
 #define ANCHOR_B_Z   -1
-#define ANCHOR_C_X -649
-#define ANCHOR_C_Y  405
+#define ANCHOR_C_X -651//-649
+#define ANCHOR_C_Y 402// 405
 #define ANCHOR_C_Z   -1
-#define ANCHOR_D_Z  1295
+#define ANCHOR_D_Z  1359
 
 // Comment this out if you plan to place your anchors at unconventional places
 // See Configuration_adv.h for exact definition of the tested convention
@@ -122,7 +123,7 @@ const float SPOOL_RADII[DIRS] = { 55.0, 55.0, 55.0, 55.0 };
 // Sandwich gear teeth: 100
 // Steps per motor revolution: 3200 (that is, 1/16 microstepping a motor with 200 full steps per revolution)
 // ==> Steps per spool radian = 3200/(2*pi*10/100) = 5093.0
-const float STEPS_PER_SPOOL_RADIAN[DIRS] = {5093.0, 5093.0, 5093.0, 5093.0};
+const float STEPS_PER_SPOOL_RADIAN[DIRS] = {10185.0, 10185.0, 10185.0, 10185.0}; //5093
 
 // If you want the experimental auto calibration feature with your Hangprinter, uncomment this.
 #define EXPERIMENTAL_AUTO_CALIBRATION_FEATURE
@@ -180,7 +181,7 @@ const float STEPS_PER_SPOOL_RADIAN[DIRS] = {5093.0, 5093.0, 5093.0, 5093.0};
 // 10 is 100k RS thermistor 198-961 (4.7k pullup)
 // 11 is 100k beta 3950 1% thermistor (4.7k pullup)
 // 12 is 100k 0603 SMD Vishay NTCS0603E3104FXT (4.7k pullup) (calibrated for Makibox hot bed)
-// 13 is 100k Hisens 3950  1% up to 300°C for hotend "Simple ONE " & "Hotend "All In ONE"
+// 13 is 100k Hisens 3950  1% up to 300Â°C for hotend "Simple ONE " & "Hotend "All In ONE"
 // 20 is the PT100 circuit found in the Ultimainboard V2.x
 // 60 is 100k Maker's Tool Works Kapton Bed Thermistor beta=3950
 //
@@ -335,8 +336,8 @@ const bool Z_MAX_ENDSTOP_INVERTING = true; // set to true to invert the logic of
 #define DISABLE_INACTIVE_EXTRUDER false //disable only inactive extruders and keep active extruder enabled
 
 #define INVERT_X_DIR false // INVERT_A false
-#define INVERT_Y_DIR true  // INVERT_B true
-#define INVERT_Z_DIR false // INVERT_C false
+#define INVERT_Y_DIR false  // INVERT_B true
+#define INVERT_Z_DIR true // INVERT_C false
 
 #define INVERT_E0_DIR false   // INVERT_E false
 #define INVERT_E1_DIR false    // INVERT_D true THIS WORKS AS FALSE
@@ -361,7 +362,7 @@ const bool Z_MAX_ENDSTOP_INVERTING = true; // set to true to invert the logic of
 #define Z_MIN_POS 0
 // Not in use yet, software endstops will be removed
 #define A_MAX_POS 900
-#define A_MIN_POS -900
+#define A_MIN_POS -900.
 #define B_MAX_POS 900
 #define B_MIN_POS -900
 #define C_MAX_POS 900
@@ -395,11 +396,11 @@ const bool Z_MAX_ENDSTOP_INVERTING = true; // set to true to invert the logic of
 //===========================================================================
 // If EXPERIMENTAL_LINE_BUILDUP_COMPENSATION_FEATURE is enabled
 // then constant ABCD values are calculated on the fly and used only used to calculate accelerations
-#define DEFAULT_ESTEPS 820.0 // 410.0 set quite at random
+#define DEFAULT_ESTEPS 841.12 // 410.0 set quite at random
 #if defined(EXPERIMENTAL_LINE_BUILDUP_COMPENSATION_FEATURE)
 #define DEFAULT_AXIS_STEPS_PER_UNIT   {0, 0, 0, 0, DEFAULT_ESTEPS}
 #else
-#define DEFAULT_AXIS_STEPS_PER_UNIT   {185.2, 185.2, 185.2, 185.2, DEFAULT_ESTEPS}
+#define DEFAULT_AXIS_STEPS_PER_UNIT   {185.2, 185.2, 185.2, 185.2, DEFAULT_ESTEPS} //185.2
 #endif
 
 
@@ -467,3 +468,4 @@ const bool Z_MAX_ENDSTOP_INVERTING = true; // set to true to invert the logic of
 #include "Configuration_adv.h"
 #include "thermistortables.h"
 #endif //__CONFIGURATION_H
+

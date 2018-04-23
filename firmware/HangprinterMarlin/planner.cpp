@@ -834,3 +834,4 @@ void reset_acceleration_rates(){
   for(int8_t i=0; i < NUM_AXIS; i++)
     axis_steps_per_sqr_second[i] = max_acceleration_units_per_sq_second[i] * axis_steps_per_unit[i];
 }
+

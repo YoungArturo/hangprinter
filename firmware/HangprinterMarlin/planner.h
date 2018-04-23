@@ -142,3 +142,4 @@ extern const float k2[DIRS];
 extern const float k0[DIRS];
 extern const float k1[DIRS];
 extern const float sqrtk1[DIRS];
+

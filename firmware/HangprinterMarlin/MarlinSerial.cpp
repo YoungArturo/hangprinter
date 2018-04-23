@@ -284,3 +284,4 @@ void MarlinSerial::printFloat(double number, uint8_t digits) {
 MarlinSerial MSerial;
 
 #endif // whole file
+

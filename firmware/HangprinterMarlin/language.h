@@ -83,3 +83,4 @@
 #define MSG_ERR_EEPROM_WRITE                "Error writing to EEPROM!"
 
 #endif //__LANGUAGE_H
+

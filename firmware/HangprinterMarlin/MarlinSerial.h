@@ -150,3 +150,4 @@ class MarlinSerial { //: public Stream
 extern MarlinSerial MSerial;
 
 #endif
+
