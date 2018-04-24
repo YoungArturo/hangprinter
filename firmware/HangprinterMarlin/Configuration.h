@@ -114,7 +114,7 @@ const int nr_of_lines_in_direction[DIRS] = {MECHANICAL_ADVANTAGE_A*ACTION_POINTS
 
 // Total length of lines on each spool
 // Change if you have cur your lines to custom lengths.
-const float MOUNTED_LINE[DIRS] = {7500.0,7500.0,7500.0,4000.0};
+const float MOUNTED_LINE[DIRS] = {4876.0,4876.0,4876.0,4876.0};
 
 // Measuring your spool radii and adjusting this number will improve your Hangprinter's precision
 const float SPOOL_RADII[DIRS] = { 55.0, 55.0, 55.0, 55.0 };
@@ -135,8 +135,9 @@ const float STEPS_PER_SPOOL_RADIAN[DIRS] = {10185.0, 10185.0, 10185.0, 10185.0};
   #define FLIPPED_A_CONNECTOR_ON_MECHADUINO false
   #define FLIPPED_B_CONNECTOR_ON_MECHADUINO false
   #define FLIPPED_C_CONNECTOR_ON_MECHADUINO false
-  #define FLIPPED_D_CONNECTOR_ON_MECHADUINO false
+  #define FLIPPED_D_CONNECTOR_ON_MECHADUINO true
 #endif
+
 
 //==========================================================================
 //============================= Driver configuration =======================
@@ -340,7 +341,7 @@ const bool Z_MAX_ENDSTOP_INVERTING = true; // set to true to invert the logic of
 #define INVERT_Z_DIR true // INVERT_C false
 
 #define INVERT_E0_DIR false   // INVERT_E false
-#define INVERT_E1_DIR false    // INVERT_D true THIS WORKS AS FALSE
+#define INVERT_E1_DIR true    // INVERT_D true THIS WORKS AS FALSE
 #define INVERT_E2_DIR false    //         false
 
 // ENDSTOP SETTINGS:
