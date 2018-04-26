@@ -114,7 +114,7 @@ const int nr_of_lines_in_direction[DIRS] = {MECHANICAL_ADVANTAGE_A*ACTION_POINTS
 
 // Total length of lines on each spool
 // Change if you have cur your lines to custom lengths.
-const float MOUNTED_LINE[DIRS] = {4876.0,4876.0,4876.0,4876.0};
+const float MOUNTED_LINE[DIRS] = {3962.0,3962.0,3962.0,3962.0};
 
 // Measuring your spool radii and adjusting this number will improve your Hangprinter's precision
 const float SPOOL_RADII[DIRS] = { 55.0, 55.0, 55.0, 55.0 };
