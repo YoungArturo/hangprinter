@@ -117,13 +117,13 @@ const int nr_of_lines_in_direction[DIRS] = {MECHANICAL_ADVANTAGE_A*ACTION_POINTS
 const float MOUNTED_LINE[DIRS] = {3962.0,3962.0,3962.0,3962.0}; 
 
 // Measuring your spool radii and adjusting this number will improve your Hangprinter's precision
-const float SPOOL_RADII[DIRS] = { 55.0, 55.0, 55.0, 55.0 };
+const float SPOOL_RADII[DIRS] = { 55.0, 55.0, 55.0, 55.0 };  //These values are good
 
 // Motor gear teeth: 10
 // Sandwich gear teeth: 100
-// Steps per motor revolution: 3200 (that is, 1/16 microstepping a motor with 200 full steps per revolution)
-// ==> Steps per spool radian = 3200/(2*pi*10/100) = 5093.0
-const float STEPS_PER_SPOOL_RADIAN[DIRS] = {5093.0, 5093.0, 5093.0, 5093.0}; //5093
+// Steps per motor revolution: 6400 (that is, 1/32 microstepping a motor with 200 full steps per revolution)
+// ==> Steps per spool radian = 6400/(2*pi*10/100) = 5093.0
+const float STEPS_PER_SPOOL_RADIAN[DIRS] = {10186.0, 10186.0, 10186.0, 10186.0}; //5093 is default value (@ 1/16 Microstepping with 200 steps per revolution)
 
 // If you want the experimental auto calibration feature with your Hangprinter, uncomment this.
 #define EXPERIMENTAL_AUTO_CALIBRATION_FEATURE
