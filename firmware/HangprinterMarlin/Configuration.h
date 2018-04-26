@@ -67,13 +67,13 @@
 // http://reprap.org/wiki/Links_Into_Hangprinter_v3_Build_Video#Now_going_into_an_hour_of_measuring_this
 
 #define ANCHOR_A_X     0 // mm
-#define ANCHOR_A_Y -762//-752
+#define ANCHOR_A_Y -629//-752
 #define ANCHOR_A_Z   -1
-#define ANCHOR_B_X  650//646
-#define ANCHOR_B_Y   373//392
+#define ANCHOR_B_X  553//646
+#define ANCHOR_B_Y   305//392
 #define ANCHOR_B_Z   -1
-#define ANCHOR_C_X -651//-649
-#define ANCHOR_C_Y 402// 405
+#define ANCHOR_C_X -553//-649
+#define ANCHOR_C_Y  305// 405
 #define ANCHOR_C_Z   -1
 #define ANCHOR_D_Z  1359 //1359
 
@@ -136,7 +136,7 @@ const float STEPS_PER_SPOOL_RADIAN[DIRS] = {10186.0, 10186.0, 10186.0, 10186.0};
   #define FLIPPED_A_CONNECTOR_ON_MECHADUINO false
   #define FLIPPED_B_CONNECTOR_ON_MECHADUINO false
   #define FLIPPED_C_CONNECTOR_ON_MECHADUINO false
-  #define FLIPPED_D_CONNECTOR_ON_MECHADUINO true
+  #define FLIPPED_D_CONNECTOR_ON_MECHADUINO false
 #endif
 
 
