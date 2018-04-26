@@ -75,7 +75,7 @@
 #define ANCHOR_C_X -651//-649
 #define ANCHOR_C_Y 402// 405
 #define ANCHOR_C_Z   -1
-#define ANCHOR_D_Z  1359
+#define ANCHOR_D_Z  1359 //1359
 
 // Comment this out if you plan to place your anchors at unconventional places
 // See Configuration_adv.h for exact definition of the tested convention
@@ -114,16 +114,17 @@ const int nr_of_lines_in_direction[DIRS] = {MECHANICAL_ADVANTAGE_A*ACTION_POINTS
 
 // Total length of lines on each spool
 // Change if you have cur your lines to custom lengths.
+
 const float MOUNTED_LINE[DIRS] = {3962.0,3962.0,3962.0,3962.0};
 
 // Measuring your spool radii and adjusting this number will improve your Hangprinter's precision
-const float SPOOL_RADII[DIRS] = { 55.0, 55.0, 55.0, 55.0 };
+const float SPOOL_RADII[DIRS] = { 55.0, 55.0, 55.0, 55.0 };  //These values are good
 
 // Motor gear teeth: 10
 // Sandwich gear teeth: 100
-// Steps per motor revolution: 3200 (that is, 1/16 microstepping a motor with 200 full steps per revolution)
-// ==> Steps per spool radian = 3200/(2*pi*10/100) = 5093.0
-const float STEPS_PER_SPOOL_RADIAN[DIRS] = {10185.0, 10185.0, 10185.0, 10185.0}; //5093
+// Steps per motor revolution: 6400 (that is, 1/32 microstepping a motor with 200 full steps per revolution)
+// ==> Steps per spool radian = 6400/(2*pi*10/100) = 5093.0
+const float STEPS_PER_SPOOL_RADIAN[DIRS] = {10186.0, 10186.0, 10186.0, 10186.0}; //5093 is default value (@ 1/16 Microstepping with 200 steps per revolution)
 
 // If you want the experimental auto calibration feature with your Hangprinter, uncomment this.
 #define EXPERIMENTAL_AUTO_CALIBRATION_FEATURE
@@ -341,7 +342,7 @@ const bool Z_MAX_ENDSTOP_INVERTING = true; // set to true to invert the logic of
 #define INVERT_Z_DIR true // INVERT_C false
 
 #define INVERT_E0_DIR false   // INVERT_E false
-#define INVERT_E1_DIR true    // INVERT_D true THIS WORKS AS FALSE
+#define INVERT_E1_DIR false    // INVERT_D true THIS WORKS AS FALSE
 #define INVERT_E2_DIR false    //         false
 
 // ENDSTOP SETTINGS:
