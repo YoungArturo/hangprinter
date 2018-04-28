@@ -67,14 +67,14 @@
 // http://reprap.org/wiki/Links_Into_Hangprinter_v3_Build_Video#Now_going_into_an_hour_of_measuring_this
 
 #define ANCHOR_A_X     0 // mm
-#define ANCHOR_A_Y -762//-752
-#define ANCHOR_A_Z   -1
-#define ANCHOR_B_X  650//646
-#define ANCHOR_B_Y   373//392
-#define ANCHOR_B_Z   -1
-#define ANCHOR_C_X -651//-649
-#define ANCHOR_C_Y 402// 405
-#define ANCHOR_C_Z   -1
+#define ANCHOR_A_Y -729//-752
+#define ANCHOR_A_Z   -125
+#define ANCHOR_B_X  553//646
+#define ANCHOR_B_Y   305//392
+#define ANCHOR_B_Z   -125
+#define ANCHOR_C_X -553//-649
+#define ANCHOR_C_Y 305// 405
+#define ANCHOR_C_Z   -125
 #define ANCHOR_D_Z  1359 //1359
 
 // Comment this out if you plan to place your anchors at unconventional places
@@ -110,7 +110,7 @@ const int nr_of_lines_in_direction[DIRS] = {MECHANICAL_ADVANTAGE_A*ACTION_POINTS
 //#define DEFAULT_SPOOL_BUILDUP_FACTOR 0.010525
 // line diameter 0.5, spool height 8.0:
 // 0.5*0.5/(pi*8.0) = 0.009947
-#define DEFAULT_SPOOL_BUILDUP_FACTOR 0.007
+#define DEFAULT_SPOOL_BUILDUP_FACTOR 0.04 //0.007
 
 // Total length of lines on each spool
 // Change if you have cur your lines to custom lengths.
@@ -123,7 +123,7 @@ const float SPOOL_RADII[DIRS] = { 55.0, 55.0, 55.0, 55.0 };
 // Sandwich gear teeth: 100
 // Steps per motor revolution: 3200 (that is, 1/16 microstepping a motor with 200 full steps per revolution)
 // ==> Steps per spool radian = 3200/(2*pi*10/100) = 5093.0
-const float STEPS_PER_SPOOL_RADIAN[DIRS] = {5093.0, 5093.0, 5093.0, 5093.0}; //5093
+const float STEPS_PER_SPOOL_RADIAN[DIRS] = {10186.0, 10186.0, 10186.0, 10186.0}; //5093
 
 // If you want the experimental auto calibration feature with your Hangprinter, uncomment this.
 #define EXPERIMENTAL_AUTO_CALIBRATION_FEATURE
@@ -336,13 +336,13 @@ const bool Z_MAX_ENDSTOP_INVERTING = true; // set to true to invert the logic of
 #define DISABLE_E false // For all extruders
 #define DISABLE_INACTIVE_EXTRUDER false //disable only inactive extruders and keep active extruder enabled
 
-#define INVERT_X_DIR false // INVERT_A false
-#define INVERT_Y_DIR false  // INVERT_B true
-#define INVERT_Z_DIR true // INVERT_C false
+#define INVERT_X_DIR true // INVERT_A false
+#define INVERT_Y_DIR true  // INVERT_B true
+#define INVERT_Z_DIR false // INVERT_C false
 
 #define INVERT_E0_DIR false   // INVERT_E false
-#define INVERT_E1_DIR false    // INVERT_D true THIS WORKS AS FALSE
-#define INVERT_E2_DIR false    //         false
+#define INVERT_E1_DIR true    // INVERT_D true THIS WORKS AS FALSE
+#define INVERT_E2_DIR true    //         false
 
 // ENDSTOP SETTINGS:
 // Sets direction of endstops when homing; 1=MAX, -1=MIN
