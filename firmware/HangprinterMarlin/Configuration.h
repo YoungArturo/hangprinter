@@ -68,14 +68,14 @@
 
 #define ANCHOR_A_X     0 // mm
 #define ANCHOR_A_Y -729//-752
-#define ANCHOR_A_Z   -125
+#define ANCHOR_A_Z   -175
 #define ANCHOR_B_X  553//646
 #define ANCHOR_B_Y   305//392
-#define ANCHOR_B_Z   -125
+#define ANCHOR_B_Z   -175
 #define ANCHOR_C_X -553//-649
-#define ANCHOR_C_Y 305// 405
-#define ANCHOR_C_Z   -125
-#define ANCHOR_D_Z  1359 //1359
+#define ANCHOR_C_Y 305// 405 
+#define ANCHOR_C_Z   -175
+#define ANCHOR_D_Z  1600 //1359
 
 // Comment this out if you plan to place your anchors at unconventional places
 // See Configuration_adv.h for exact definition of the tested convention
@@ -110,7 +110,7 @@ const int nr_of_lines_in_direction[DIRS] = {MECHANICAL_ADVANTAGE_A*ACTION_POINTS
 //#define DEFAULT_SPOOL_BUILDUP_FACTOR 0.010525
 // line diameter 0.5, spool height 8.0:
 // 0.5*0.5/(pi*8.0) = 0.009947
-#define DEFAULT_SPOOL_BUILDUP_FACTOR 0.04 //0.007
+#define DEFAULT_SPOOL_BUILDUP_FACTOR 0.0007 //0.007
 
 // Total length of lines on each spool
 // Change if you have cur your lines to custom lengths.
