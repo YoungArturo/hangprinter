@@ -1,0 +1,265 @@
+TODO: ------------------------------------------------
+Prepare Marlin_main.cpp
+        stepper.cpp
+Add A_AXIS, B_AXIS, C_AXIS, D_AXIS, E_AXIS as indices for all Hangprinter geometry arrays (X_AXIS, Y_AXIS, Z_AXIS, E_CART for Carthesian geometry arrays)
+  And add NUM_AXIS and NUM_AXIS_N wherever there was XYZE and XYZE_N before
+
+Map ABC D E axes to XYZ E1 E0
+
+Change gcodes that look for axis_codes (= { 'X', 'Y', 'Z', 'E' }) so that they look for axis_codes_hangprinter (= { 'A', 'B', 'C', 'D', 'E' }) instead
+  - M204
+  - M665
+  - M913
+  - M350?
+  - M351?
+
+Include forward kinematics
+  Use trilateration: https://en.wikipedia.org/wiki/Trilateration (Try all 4 combinations and average the result)
+  affects get_cartesian_from_steppers()
+
+Make G6 and G1 S2 step individual motors
+
+Make G28 do nothing but zero out counters
+
+Implement M665 WERTYUIOP in Marlin_main.cpp
+
+Reorganize configuration_store so that MarlinSettings::load() and MarlinSettings::save() works
+  - Make space for ABCDE arrays instead of XYZE arrays
+  - Save anchor_A_y, anchor_B_x, ... in the 11 delta-floats
+
+Make sure so that motors never disable when ENABLED(HANGPRINTER)
+
+Include line buildup compensation
+
+Include Mechaduino i2c code
+
+Move TMC config from HangprinterMarlin/stepper.cpp into example_configurations/hangprinter/Configuration_adv.h TMC_ADV(){ }
+
+
+DONE:-------------------------------------------------
+Add HANGPRINTER define
+Set sane defaults for Configuration.h
+Add ANCHOR_ABC_XYZ and ANCHOR_D_Z
+Include inverse kinematics
+Prepare planner.h
+        planner.cpp
+        stepper.h
+        stepper.cpp
+        Marlin_main.cpp
+M92
+M201
+M203
+M205
+M906
+
+
+GENERAL STRATEGY:-------------------------------------
+1: As small changes as possible
+Changes analogous to DELTA
+But don't use DELTA define or DELTA names. Use HANGPRINTER/KINEMATIC instead.
+
+2: Use IS_KINEMATIC
+
+3: Collect in arrays all that can be collected in arrays
+
+4: Don't make new functions
+
+
+QUESTIONS: -------------------------------------------
+What is UBL, UBL_SEGMENTED etc ?
+  ans: Unified Bed Leveling
+  What does it do?
+    Marlin uses ubl.prepare_segmented_line_to instead of prepare_kinematic_move_to if UBL_SEGMENTED is enabled...
+
+Why does Marlin have #if ENABLED(DELTA_FAST_SQRT) in two places when there is no #define DELTA_FAST_SQRT?
+  Don't use DELTA_FAST_SQRT/Q_rsqrt. It's the "Quake reciprocal sqrt"-trick.
+
+Where is delta_segments_per_second initalized?
+  Configuration_store.cpp?
+  We should initialize anchor_ABCD_XYZ and other variables there as well
+
+A comment in planner.h near planner.buffer_line() says:
+"Kinematic machines should call buffer_line_kinematic (for leveled moves)."
+But the DELTA code calls buffer_line(), not buffer_line_kinematic() (ok, it calls buffer_line_kinematic if there is no XY movement).
+
+What is "fade"?
+
+Why are ABC axes called ARG_X ARG_Y ARG_Z / rx ry rz?
+
+Is target[] filled with target positions per motor before _buffer_steps() is called?
+  A bitmap is created, and individual CORE_XY motors does not get directions directly from target[]. Rather X_HEAD is set directly from target[].
+  DELTA is not mentioned at all....
+  Ans: The function that calls _buffer_steps is buffer_segment. The description of buffer_segment says:
+       "Leveling and kinematics should be applied ahead of calling this."
+
+How to set XYZ_HEAD bits in _buffer_steps?
+  Only abcd motor steps are known, and carthesian head movement should definitely be detemined from gcode, not from applying forward kinematics.
+  How does DELTA do this?
+
+The block->millimeters calculation on line 1111 of planner.cpp, is that millimeters of movement on each motor, or millimeters of effector movement?
+  CORE machines treats it as millimeters of effector movement, DELTA treats it as millimeters of motor movement
+
+Why 3?
+  uint32_t Stepper::motor_current_setting[3]; // In stepper.cpp line 80 (also in stepper.h)
+  dependency on hard coded value created later:
+      if (WITHIN(driver, 0, 2))
+        motor_current_setting[driver] = current; // update motor_current_setting
+  The dependency is also hard coded into configuration_store.cpp
+
+Why is there something called "manual" feedrate, "manual" move axis, "manual" move e index?
+  Because people use their LCD+knob control to do moves (in carthesian system)
+  Would of course be nice with manual ABCD-moves as well...
+
+Does parser.value_axis_units(E_AXIS) really mean to say E_CART?
+  Seems like it only makes a difference in inch mode
+
+How is position_float really used?
+  To calculate lin_dist_xy and lin_dist_e which is used to adjust extrusion of a move.
+
+What is a block->step_event_count used for?
+  They are passed on to counter_ABCDE/counter_XYZE
+
+Are Hangprinter's axes enabled on startup?
+
+OBSERVE: ---------------------------------------------
+Hangprinter orders its arrays like A_AXIS, B_AXIS, C_AXIS, D_AXIS, EHP_AXIS
+This affects ABCDE arrays
+  - DEFAULT_AXIS_STEPS_PER_UNIT
+  - DEFAULT_MAX_FEEDRATE
+  - DEFAULT_MAX_ACCELERATION
+  - homing_feedrate_mm_s[]
+  - max_feedrate_mm_s (planner.cpp)
+  - axis_steps_per_mm (planner.cpp)
+  - steps_to_mm (planner.cpp)
+  - max_acceleration_steps_per_s2 (planner.cpp)
+  - max_acceleration_mm_per_s2 (planner.cpp)
+  - block->steps[] (planner.cpp)
+  - position[] (planner.cpp)
+  - target[] (planner.cpp)
+  - delta_mm[] (planner.cpp)
+  - current_speed[] (planner.cpp)
+  - max_jerk[] (planner.cpp)
+  - previous_speed[] (planner.cpp)
+  - position_float[] (planner.cpp)
+  - count_position[] (stepper.cpp)
+  - count_direction[] (stepper.cpp)
+  - axis_codes_hangprinter[]
+And ABCDE functions/methods
+  - _buffer_steps (planner.cpp)
+  - buffer_segment (planner.cpp)
+  - _set_position_mm (planner.cpp)
+  - buffer_line (planner.cpp)
+And bitmaps
+  - dm (planner.cpp)
+  - block->direction_bits
+  - old_direction_bits
+
+And ABCD arrays
+  - nr_of_lines_in_direction
+  - MOUNTED_LINE
+  - SPOOL_RADII
+  - STEPS_PER_SPOOL_RADIAN
+
+And #defines
+  - A_APPLY_STEP, ..., EHP_APPLY_STEP
+  - INVERT_A_STEP_PIN, ..., INVERT_EHP_STEP_PIN
+
+And macros
+  - PULSE_START(AXIS)
+  - PULSE_STOP(AXIS)
+  - LINE_SEGMENT_END(A)
+  - MBL_SEGMENT_END(A)
+  - _BETWEEN(A)
+  - CELL_INDEX(A,V)
+  - HOMEAXIS(LETTER)
+  - DUAL_ENDSTOP_APPLY_STEP(AXIS,v)
+  - SET_STEP_DIR(AXIS)
+
+  Hangprinter mapping pins to axes:
+  {X, Y, Z, E1, E0} <-> {A, B, C, D, E}
+  Note that D axis uses the E1 pin
+
+The following arrays are XYZE arrays (All in Marlin_main.cpp)
+  - current_position[]
+  - destination[]
+  - cart (in Marlin_main.cpp plan_arc())
+  - raw[XYZE] (prepare_kinematic_move_to(), plan_arc())
+  - axis_codes[XYZE]
+  - raised_parked_position[XYZE]
+  - resume_position[XYZE]
+  - from_steppers[XYZE]
+  - diff[XYZE]
+  - values[XYZE] (Should maybe be changed to NUM_AXIS to make M350/M351 work with ABCDE)
+  - (&rtarget)[XYZE] (Marlin_main.cpp prepare_kinematic_move_to())
+  - segment_distance[XYZE]
+  - start[XYZE] (ubl_motion.cpp)
+  - end[XYZE] (ubl_motion.cpp)
+  - axis_relative_modes[]
+
+The following arrays are XYZ arrays
+  - axis_homed[]
+  - axis_known_position[]
+  - position_shift[XYZ]
+  - home_offset[XYZ]
+  - workspace_offset[XYZ]
+  - soft_endstop_min[XYZ]
+  - soft_endstop_max[XYZ]
+  - hotend_offset[XYZ][HOTENDS]
+  - cartes[XYZ]
+  - base_min_pos
+  - base_max_pos
+  - base_home_pos
+  - max_length
+  - home_bump_mm
+  - home_dir
+  - raw[XYZ] (Marlin_main.cpp in do_blocking_move_to(), bilinear_z_offset(), inverse_kinematics())
+  - reset[XYZ]
+  - old_offset[XYZ]
+  - new_offset[XYZ]
+  - diff[XYZ]
+  - converted[XYZ]
+  - delta_endstop_adj[]
+  - delta_tower_angle_trim[]
+  - e_delta[]
+  - retract_mm[XYZ]
+  - position_shift[]
+  - logical[XYZ]
+  - leveled[XYZ]
+  - unleveled[XYZ]
+  - Stepper::motor_current_setting[3]
+  - target[XYZ] (Marlin_main.cpp clamp_to_software_endstops())
+
+
+TODO LATER: ------------------------------------------
+delta_segments_per_second -> kinematic_segments_per_second
+
+Separating E_AXIS/EHP_AXIS and E_AXIS_N/EHP_AXIS_N with #if ENABLED(HANGPRINTER) is not pretty
+  To find all occurences of [E_AXIS], except those in the file stepper.cpp, do
+    grep -rn "\[E_AXIS\]" --exclude=stepper.cpp
+  The problem is that sometimes you want to index [x,y,z,e]-arrays and sometimes [a,b,c,d,e]-arrays.
+  Would be nice with a EXTRUDER_IN(array), EXTRUDER_N_IN(array) macro.
+  How to tell the difference between a ABCDE-array and a XYZEE-array?
+  One solution is if Marlin itself differentiates between arrays that hold cartesian(+e) axes data and
+  those that hold movement axes data.
+  The solution might be to define a E_INDEX_AUX in each file.
+  Most XYZE-arrays seem to be in Marlin_main.cpp
+  Most ABCDE-arrays seem to be in planner.cpp
+
+The way that lin_dist_xy is calculated in stepper.cpp seems to assume a cartesian robot?
+  Again, it seems like DELTA does nothing about this
+
+Everything involving endstops
+Everything involving automatic homing
+  ABCD_HOME_BUMP_MM
+  Look at home_delta() in Marlin_main.cpp
+
+Always use Stepper::e_steps[E_STEPPERS] instead of counter_E.
+  Right now it only uses e_steps if LIN_ADVANCE is enabled
+  Separating movement axes from tool head axes is in general a good thing.
+
+Support E1_DUAL_STEPPER_DRIVERS/D_DUAL_STEPPER_DRIVERS
+
+axis_unit_factor references E_AXIS but I have no idea if it really means E_CART or E_AXIS
+
+Maybe calculate block->millimters from A_AXIS, B_AXIS, C_AXIS and only use D_AXIS if the ABC-version is zero?
+  block->millimeters seems to be used for speed calculations exclusively
